@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Print: hide UI chrome, show only the bill ─────────────────────────── */
+@media print {
+    .no-print { display: none !important; }
+    body       { background: white !important; color: black !important; }
+}
+
+/* ── Scrollbar tweaks ───────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 9999px; }
+
+.dark ::-webkit-scrollbar-thumb { background: #475569; }
