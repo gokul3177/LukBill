@@ -1,76 +1,77 @@
-# LukBill
+# LukBill 2.0 🏥
 
-LukBill is a modern, smart billing application tailored for shopkeepers. With AI-powered voice dictation (powered by Groq / Llama 3), dark mode, UPI QR code generation, and historical analytics, creating and managing bills has never been faster.
+LukBill 2.0 is a modern, AI-powered clinic management and billing application tailored specifically for doctors and medical clinics. It features AI-driven voice prescriptions, patient history tracking, smart inventory management, and an integrated "Hey Luk" voice assistant to streamline the doctor's workflow.
 
 ## 🚀 Features
 
-- **Store & Product Management:** Initialize an item catalog with standard pricing.
-- **AI Voice Assistance:** Speak to create bills (e.g., "Bill for John items 5 pencils and 2 notebooks"); the AI automatically extracts the customer and line items.
-- **Smart Suggestions:** Intelligent fuzzy-finding for items missing prices and suggestions directly within the interface.
-- **UPI QR Code Generation:** Generate an invoice containing an actionable UPI payment QR code dynamically linked to the total bill amount.
-- **Print & PDF Mode:** A beautifully customized format tailored specifically for A4 invoice printing.
-- **Bill Analytics & History:** Easily track daily revenue, search past bills by date, and identify best-selling products.
+- **Authentication & Clinic Setup:** Secure JWT authentication with customized clinic profiles (Doctor name, Registration number, UPI setup, Consultation fees).
+- **Patient Management & History:** Register patients, maintain detailed consultation histories, and track all past bills and prescriptions.
+- **AI Voice Prescriptions:** Speak your prescriptions directly! The app uses the Groq API (Llama 3.1) to accurately parse spoken medicines, dosages, timings, and durations.
+- **Smart Inventory & Fuzzy Matching:** Intelligent fuzzy-matching automatically links spoken medicine names to your live inventory. 
+- **Low Stock Alerts:** Get notified immediately when medicine stock falls below your customized threshold.
+- **"Hey Luk" Voice Assistant:** A hands-free WebSocket-powered assistant. Say *"Hey Luk, next patient"* or *"Hey Luk, open inventory"* to navigate the app without touching the mouse.
+- **UPI QR Code Billing:** Instantly generate printable bills containing a dynamic UPI QR code for seamless patient payments.
+- **Print & PDF Mode:** Beautifully formatted, print-ready A4 templates for both prescriptions and final invoices.
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** React.js, Vite, TailwindCSS
-- **Backend:** Node.js, Express.js
-- **Database:** MongoDB
-- **AI Model:** Groq API (Llama-3-70b-8192)
+- **Frontend:** React.js, Vite, TailwindCSS, React Router, React Hot Toast
+- **Backend:** Node.js, Express.js, WebSockets (ws)
+- **Database:** MongoDB & Mongoose
+- **AI Integration:** Groq API (`llama-3.1-8b-instant`) for natural language parsing
 
 ## 📦 Setup & Installation
 
 ### Prerequisites
 
 - [Node.js](https://nodejs.org/) installed
-- [MongoDB](https://www.mongodb.com/try/download/community) installed and running locally on port 27017
+- [MongoDB](https://www.mongodb.com/try/download/community) installed and running (or a MongoDB Atlas URI)
+- A [Groq API Key](https://console.groq.com/keys)
 
-### 1. Database & Backend
+### 1. Database & Backend Configuration
 
-Open a terminal and navigate to the backend folder:
+Open a terminal and navigate to the `server` folder:
 ```bash
-cd backend
+cd server
 npm install
 ```
 
-**Seed Initial Data:** Let's populate the database with default products!
-```bash
-node seedProducts.js
+Create a `.env` file in the `server` directory and configure your environment variables:
+```env
+PORT=5000
+MONGODB_URI=mongodb://127.0.0.1:27017/lukbill2
+JWT_SECRET=your_super_secret_jwt_key
+GROQ_API_KEY=your_groq_api_key_here
 ```
 
 **Start the API Server:**
 ```bash
-npm start   # If using nodemon
+npm run dev   # Uses nodemon (if configured) or node index.js
 ```
-The backend API will run on `http://localhost:5000`.
+The backend API and WebSocket server will run on `http://localhost:5000`.
 
 ### 2. Frontend Application
 
-Open another terminal and navigate to the client folder:
+Open another terminal and navigate to the `client` folder:
 ```bash
 cd client
 npm install
-```
-
-**Configuration:** Ensure your `.env` file exists inside the `client` folder with your credentials. You can set this up as follows:
-```env
-VITE_GROQ_API_KEY=your_groq_api_key_here
-VITE_UPI_ID=your_upi_id@bank
-VITE_UPI_NAME=LukBill
 ```
 
 **Start the Dev Server:**
 ```bash
 npm run dev
 ```
-The React Application will spin up locally (e.g., `http://localhost:5173`).
+The React application will automatically proxy API requests to port 5000. Open the local link (usually `http://localhost:5173`) in your browser.
 
 ## 🎤 How to Use the App
 
-1. **New Bill:** Make sure your microphone is allowed in your browser. Tap the microphone icon, and dictate clearly: *"Bill to Raj items 5 apples and 2 milk"*. The AI will automatically organize the invoice and fetch prices from the database!
-2. **Review & Edit:** Review the populated invoice. You can manually adjust quantities, delete items, or add items from the "Smart Suggestions" autocomplete box.
-3. **Save & Print:** Click "Save Bill" to store the transaction to MongoDB, then hit the "Print" icon to print or save the final generated copy (which natively includes the auto-filled UPI QR Code).
-4. **Search Dashboard:** Navigate to `Search Bills` at the top right to view historical transactions, see your total daily revenue, and find your best-selling product!
+1. **Register & Setup:** Create a new account and fill out your Clinic details (Name, Consultation Fee, UPI ID, etc.).
+2. **Inventory Management:** Navigate to "Inventory" to add your available medicines, prices, and stock levels.
+3. **New Patient Consult:** Click "New Patient", register or select an existing patient, and proceed to the Voice Prescription page.
+4. **Speak the Prescription:** Tap the microphone and speak (e.g., *"Paracetamol 500mg 1-0-1 for 5 days"*). The AI extracts the details and maps them to your inventory.
+5. **Approve & Bill:** Review the matches, approve the prescription, and generate the final bill complete with an actionable UPI QR code. 
+6. **Hey Luk Assistant:** Click the "Hey Luk" button in the navbar to enable continuous listening. Command the app via voice to navigate between screens seamlessly.
 
 ---
-*Created dynamically for smart, fast processing. ⚡*
+*LukBill 2.0 — Built to save doctors time, every single day. ⚡*
