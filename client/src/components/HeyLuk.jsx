@@ -18,7 +18,12 @@ export default function HeyLuk() {
   useEffect(() => {
     // Setup WebSocket
     if (clinic) {
-      const wsUrl = `ws://${window.location.hostname}:5000?clinicId=${clinic._id}`;
+      // Determine WebSocket URL from env or fallback to local
+      const wsBase = import.meta.env.VITE_API_URL 
+        ? import.meta.env.VITE_API_URL.replace(/^http/, 'ws')
+        : `ws://${window.location.hostname}:5000`;
+      
+      const wsUrl = `${wsBase}?clinicId=${clinic._id}`;
       wsRef.current = new WebSocket(wsUrl);
 
       wsRef.current.onmessage = (event) => {
