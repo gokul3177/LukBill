@@ -24,6 +24,13 @@ export const AuthProvider = ({ children }) => {
           setClinic(res.data);
         } catch (error) {
           console.error("Clinic not setup yet or error fetching clinic config");
+          if (error.response && error.response.status === 401) {
+            // Token is invalid/expired (e.g., DB was wiped). Clear session to fix zombie state.
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            setUser(null);
+            delete axios.defaults.headers.common['Authorization'];
+          }
         }
       }
       setLoading(false);
