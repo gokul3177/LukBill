@@ -6,6 +6,9 @@ import ProtectedRoute from './components/ProtectedRoute';
 // Pages
 import Login from './pages/Login';
 import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
+import VerifyOTP from './pages/VerifyOTP';
+import ResetPassword from './pages/ResetPassword';
 import ClinicSetup from './pages/ClinicSetup';
 import Dashboard from './pages/Dashboard';
 import PatientRegister from './pages/PatientRegister';
@@ -35,6 +38,9 @@ function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/verify-otp" element={<VerifyOTP />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           
           <Route element={<ProtectedRoute requireClinicSetup={false} />}>
             <Route path="/clinic-setup" element={<ClinicSetup />} />

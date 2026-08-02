@@ -37,6 +37,9 @@ export default function Login() {
           <label className="block text-sm font-semibold text-gray-700">Password</label>
           <input type="password" required className="w-full mt-1 p-2 border rounded focus:ring-2 focus:ring-teal-500"
             value={password} onChange={e => setPassword(e.target.value)} />
+          <div className="text-right mt-1">
+            <Link to="/forgot-password" className="text-sm text-teal-600 hover:underline">Forgot Password?</Link>
+          </div>
         </div>
         <button type="submit" className="w-full bg-teal-600 text-white font-bold py-2 rounded hover:bg-teal-700">
           Login

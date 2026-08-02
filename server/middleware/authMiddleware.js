@@ -14,6 +14,13 @@ const authMiddleware = async (req, res, next) => {
         return res.status(401).json({ message: 'User not found' });
       }
 
+      if (req.user.passwordChangedAt) {
+        const changedTimestamp = parseInt(req.user.passwordChangedAt.getTime() / 1000, 10);
+        if (decoded.iat < changedTimestamp) {
+          return res.status(401).json({ message: 'User recently changed password! Please log in again.' });
+        }
+      }
+
       req.clinicId = req.user.clinicId; // Attach clinicId for scoped queries
 
       return next();
