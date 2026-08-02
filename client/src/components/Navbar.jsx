@@ -36,21 +36,50 @@ export default function Navbar() {
 
   const isActive = (path) => location.pathname === path;
 
-  // Handle custom image upload and convert to base64
+  // Handle custom image upload, auto-resize to 300x300 canvas & compress to base64
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
-    if (file.size > 2 * 1024 * 1024) {
-      setError('Image size should be less than 2MB');
-      return;
-    }
-
     setUploading(true);
+    setError('');
+
     const reader = new FileReader();
-    reader.onloadend = () => {
-      setAvatar(reader.result);
-      setUploading(false);
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 300;
+        const MAX_HEIGHT = 300;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.85);
+        setAvatar(compressedBase64);
+        setUploading(false);
+      };
+      img.onerror = () => {
+        setError('Failed to process image');
+        setUploading(false);
+      };
+      img.src = event.target.result;
     };
     reader.onerror = () => {
       setError('Failed to read file');
