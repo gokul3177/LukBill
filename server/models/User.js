@@ -5,6 +5,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   passwordHash: { type: String, required: true },
   clinicId: { type: mongoose.Schema.Types.ObjectId, ref: 'Clinic' }, // Can be null initially until setup
+  avatarUrl: { type: String }, // Base64 or URL
   passwordChangedAt: { type: Date },
   createdAt: { type: Date, default: Date.now }
 });

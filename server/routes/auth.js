@@ -33,7 +33,7 @@ router.post('/register', async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
     
-    res.status(201).json({ token, user: { _id: user._id, name: user.name, email: user.email, clinicId: user.clinicId } });
+    res.status(201).json({ token, user: { _id: user._id, name: user.name, email: user.email, clinicId: user.clinicId, avatarUrl: user.avatarUrl } });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
@@ -60,7 +60,7 @@ router.post('/login', async (req, res) => {
 
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '7d' });
 
-    res.json({ token, user: { _id: user._id, name: user.name, email: user.email, clinicId: user.clinicId } });
+    res.json({ token, user: { _id: user._id, name: user.name, email: user.email, clinicId: user.clinicId, avatarUrl: user.avatarUrl } });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
@@ -211,6 +211,39 @@ router.post('/reset-password', async (req, res) => {
     await log.save();
 
     res.status(200).json({ message: 'Password has been reset successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// @route   PUT /api/auth/profile
+// @desc    Update user profile (name, avatarUrl)
+// @access  Private
+const authMiddleware = require('../middleware/authMiddleware');
+router.put('/profile', authMiddleware, async (req, res) => {
+  try {
+    const { name, avatarUrl } = req.body;
+    const user = await User.findById(req.user._id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (name) user.name = name;
+    if (avatarUrl !== undefined) user.avatarUrl = avatarUrl;
+
+    await user.save();
+
+    res.json({
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        clinicId: user.clinicId,
+        avatarUrl: user.avatarUrl
+      }
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Server error' });
