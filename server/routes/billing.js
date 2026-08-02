@@ -32,7 +32,7 @@ router.post('/generate', authMiddleware, async (req, res) => {
         return res.status(400).json({ message: `Medicine ${med.name} is not linked to inventory.` });
       }
 
-      const inventoryItem = await Medicine.findById(med.medicineId);
+      const inventoryItem = await Medicine.findOne({ _id: med.medicineId, clinicId: req.clinicId });
       if (!inventoryItem) {
         return res.status(400).json({ message: `Inventory item for ${med.name} not found.` });
       }

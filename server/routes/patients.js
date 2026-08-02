@@ -38,7 +38,8 @@ router.get('/', authMiddleware, async (req, res) => {
     let query = { clinicId: req.clinicId };
 
     if (q) {
-      const searchRegex = new RegExp(q, 'i');
+      const escapedQuery = q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const searchRegex = new RegExp(escapedQuery, 'i');
       query.$or = [{ name: searchRegex }, { phone: searchRegex }];
     }
 
