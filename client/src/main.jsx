@@ -9,6 +9,8 @@ import App from './App.jsx'
 // In development, it defaults to empty string, falling back to Vite's proxy.
 axios.defaults.baseURL = import.meta.env.VITE_API_URL || '';
 
+console.log("lukbill_2.0");
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
