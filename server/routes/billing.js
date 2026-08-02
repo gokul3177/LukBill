@@ -5,10 +5,9 @@ const Prescription = require('../models/Prescription');
 const Medicine = require('../models/Medicine');
 const Clinic = require('../models/Clinic');
 const authMiddleware = require('../middleware/authMiddleware');
-const { generateUPIQRCode } = require('../utils/qrGenerator');
 
 // @route   POST /api/billing/generate
-// @desc    Approve prescription, calculate total, generate bill & QR
+// @desc    Approve prescription, calculate total, generate bill
 // @access  Private
 router.post('/generate', authMiddleware, async (req, res) => {
   try {
@@ -60,9 +59,6 @@ router.post('/generate', authMiddleware, async (req, res) => {
     // Add consultation fee
     grandTotal += clinic.consultationFee;
 
-    // Generate UPI QR Code
-    const qrCodeUrl = await generateUPIQRCode(clinic.upiId, clinic.clinicName, grandTotal);
-
     const newBill = new Bill({
       clinicId: req.clinicId,
       prescriptionId: prescription._id,
@@ -70,7 +66,6 @@ router.post('/generate', authMiddleware, async (req, res) => {
       items: billItems,
       consultationFee: clinic.consultationFee,
       grandTotal,
-      qrCodeUrl,
       paid: false
     });
 

@@ -9,7 +9,7 @@ const authMiddleware = require('../middleware/authMiddleware');
 // @access  Private
 router.post('/setup', authMiddleware, async (req, res) => {
   try {
-    const { clinicName, doctorName, address, phone, registrationNumber, consultationFee, upiId, lowStockThreshold } = req.body;
+    const { clinicName, doctorName, address, phone, registrationNumber, consultationFee, lowStockThreshold } = req.body;
 
     // Check if user already has a clinic
     if (req.user.clinicId) {
@@ -24,7 +24,6 @@ router.post('/setup', authMiddleware, async (req, res) => {
       phone,
       registrationNumber,
       consultationFee,
-      upiId,
       lowStockThreshold
     });
 

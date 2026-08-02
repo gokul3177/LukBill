@@ -61,17 +61,8 @@ export default function PrintTemplate({ bill, patient }) {
         </tbody>
       </table>
 
-      {/* Totals & QR */}
-      <div className="flex justify-between items-end mt-8">
-        <div className="text-center">
-          {bill.qrCodeUrl && (
-            <>
-              <img src={bill.qrCodeUrl} alt="UPI QR Code" className="w-32 h-32 mx-auto" />
-              <p className="text-xs font-semibold mt-1">Scan to Pay via UPI</p>
-              <p className="text-xs">{clinic.upiId}</p>
-            </>
-          )}
-        </div>
+      {/* Totals */}
+      <div className="flex justify-end items-end mt-8">
         <div className="text-right">
           <p className="text-2xl font-bold">Grand Total: ₹{bill.grandTotal.toFixed(2)}</p>
         </div>

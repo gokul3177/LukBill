@@ -8,7 +8,6 @@ const clinicSchema = new mongoose.Schema({
   phone: { type: String, required: true },
   registrationNumber: { type: String, required: true },
   consultationFee: { type: Number, required: true },
-  upiId: { type: String, required: true },
   lowStockThreshold: { type: Number, default: 10 },
   createdAt: { type: Date, default: Date.now }
 });

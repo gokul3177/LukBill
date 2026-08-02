@@ -13,7 +13,6 @@ const billSchema = new mongoose.Schema({
   }],
   consultationFee: { type: Number, required: true, default: 0 },
   grandTotal: { type: Number, required: true },
-  qrCodeUrl: { type: String }, // base64 data URL
   paid: { type: Boolean, default: false },
   createdAt: { type: Date, default: Date.now }
 });

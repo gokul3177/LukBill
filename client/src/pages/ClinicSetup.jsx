@@ -7,7 +7,7 @@ import { useAuth } from '../context/AuthContext';
 export default function ClinicSetup() {
   const [formData, setFormData] = useState({
     clinicName: '', doctorName: '', address: '', phone: '',
-    registrationNumber: '', consultationFee: 200, upiId: '', lowStockThreshold: 10
+    registrationNumber: '', consultationFee: 200, lowStockThreshold: 10
   });
   
   const { updateClinic, updateUser, user } = useAuth();
@@ -62,11 +62,6 @@ export default function ClinicSetup() {
         <div>
           <label className="block text-sm font-semibold text-gray-700">Phone Number</label>
           <input type="text" name="phone" required className="w-full mt-1 p-2 border rounded focus:ring-2 focus:ring-teal-500" onChange={handleChange} />
-        </div>
-
-        <div>
-          <label className="block text-sm font-semibold text-gray-700">UPI ID (For QR Code)</label>
-          <input type="text" name="upiId" required className="w-full mt-1 p-2 border rounded focus:ring-2 focus:ring-teal-500" placeholder="e.g. clinic@okhdfc" onChange={handleChange} />
         </div>
 
         <div>
