@@ -47,13 +47,6 @@ export default function VoicePrescription() {
     };
 
     recognitionRef.current = recognition;
-  }, []);
-
-  // Update language when toggle changes
-  useEffect(() => {
-    if (recognitionRef.current) {
-      recognitionRef.current.lang = language;
-    }
   }, [language]);
 
   const toggleListen = () => {
@@ -95,46 +88,46 @@ export default function VoicePrescription() {
   if (!patient) return <Navigate to="/patients/new" replace />;
 
   return (
-    <div className="max-w-3xl mx-auto mt-8 bg-white p-8 rounded-xl shadow-lg border-t-4 border-teal-600">
+    <div className="max-w-3xl mx-auto mt-2 sm:mt-6 bg-white p-4 sm:p-8 rounded-xl shadow-lg border-t-4 border-teal-600">
       
-      <div className="flex justify-between items-center mb-6 border-b pb-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6 border-b pb-4">
         <div>
-          <h2 className="text-2xl font-bold text-gray-800">Voice Prescription</h2>
-          <p className="text-gray-600 mt-1">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-800">Voice Prescription</h2>
+          <p className="text-sm text-gray-600 mt-1">
             Patient: <span className="font-bold text-teal-700">{patient.name}</span> ({patient.age}y/{patient.gender})
           </p>
         </div>
         <LanguageToggle language={language} setLanguage={setLanguage} />
       </div>
 
-      <div className="flex flex-col items-center py-10 bg-gray-50 rounded-lg border border-dashed border-gray-300">
+      <div className="flex flex-col items-center py-8 sm:py-10 bg-gray-50 rounded-xl border border-dashed border-gray-300">
         <VoiceButton isListening={isListening} onClick={toggleListen} />
-        <p className="mt-6 text-sm font-semibold text-gray-500 uppercase tracking-wide">
-          {isListening ? 'Listening... Tap to stop' : 'Tap mic to start speaking'}
+        <p className="mt-5 text-xs sm:text-sm font-semibold text-gray-500 uppercase tracking-wide text-center px-4">
+          {isListening ? '🎙️ Listening... Tap to stop' : '👇 Tap mic to start dictating prescription'}
         </p>
       </div>
 
       <div className="mt-6">
-        <label className="block text-sm font-semibold text-gray-700 mb-2">Live Transcript</label>
+        <label className="block text-xs sm:text-sm font-semibold text-gray-700 mb-2">Live Transcript</label>
         <textarea 
-          className="w-full p-4 border rounded-lg h-32 focus:ring-2 focus:ring-teal-500 bg-white"
+          className="w-full p-3 sm:p-4 border rounded-xl h-36 focus:ring-2 focus:ring-teal-500 bg-white text-sm"
           value={transcript}
           onChange={(e) => setTranscript(e.target.value)}
-          placeholder="Speech will appear here..."
+          placeholder="Dictate prescription or edit transcript here..."
         />
       </div>
 
-      <div className="mt-8 flex gap-4">
+      <div className="mt-6 flex flex-col sm:flex-row gap-3">
         <button 
           onClick={() => navigate('/patients/new')} 
-          className="px-6 py-3 bg-gray-200 text-gray-800 font-bold rounded-lg hover:bg-gray-300"
+          className="w-full sm:w-auto px-6 py-3 bg-gray-200 text-gray-800 font-bold rounded-xl hover:bg-gray-300 active:scale-95 transition-all text-center"
         >
           Cancel
         </button>
         <button 
           onClick={handleParse} 
           disabled={isParsing || !transcript.trim()}
-          className="flex-1 bg-teal-600 text-white font-bold py-3 rounded-lg hover:bg-teal-700 shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+          className="w-full sm:flex-1 bg-teal-600 text-white font-bold py-3.5 rounded-xl hover:bg-teal-700 active:scale-95 shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2 text-base transition-all"
         >
           {isParsing ? (
             <>
